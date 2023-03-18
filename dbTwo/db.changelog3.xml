@@ -1,0 +1,79 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="1" author="john" dbms="mysql">
+    <createTable tableName="customers">
+      <column name="id" type="INT">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="name" type="VARCHAR(255)">
+        <constraints nullable="false"/>
+      </column>
+      <column name="age" type="INT">
+        <constraints nullable="false"/>
+      </column>
+      <column name="email" type="VARCHAR(255)">
+        <constraints nullable="true"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="2" author="john" dbms="mysql">
+    <addColumn tableName="customers">
+      <column name="phone" type="VARCHAR(20)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+  </changeSet>
+
+  <changeSet id="3" author="john" dbms="mysql">
+    <addColumn tableName="customers">
+      <column name="address" type="VARCHAR(255)">
+        <constraints nullable="true"/>
+      </column>
+    </addColumn>
+  </changeSet>
+
+  <changeSet id="4" author="john" dbms="mysql">
+    <createProcedure procedureName="get_customer_by_id">
+      <parameter name="in_id" type="INT"/>
+      <returns>
+        <return valueDataType="INT"/>
+      </returns>
+      <sql>
+        <![CDATA[
+          BEGIN
+            SELECT COUNT(*) INTO @result FROM customers WHERE id = in_id;
+            RETURN @result;
+          END
+        ]]>
+      </sql>
+    </createProcedure>
+  </changeSet>
+
+  <changeSet id="5" author="john" dbms="oracle">
+    <createTable tableName="orders">
+      <column name="id" type="NUMBER">
+        <constraints primaryKey="true" nullable="false"/>
+      </column>
+      <column name="customer_id" type="NUMBER">
+        <constraints nullable="false"/>
+      </column>
+      <column name="amount" type="NUMBER">
+        <constraints nullable="false"/>
+      </column>
+      <column name="order_date" type="DATE">
+        <constraints nullable="false"/>
+      </column>
+    </createTable>
+  </changeSet>
+
+  <changeSet id="6" author="john" dbms="oracle">
+    <addForeignKeyConstraint baseTableName="orders" baseColumnNames="customer_id"
+                             referencedTableName="customers" referencedColumnNames="id"
+                             constraintName="fk_orders_customers"/>
+  </changeSet>
+
+</databaseChangeLog>

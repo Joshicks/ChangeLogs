@@ -1,0 +1,93 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+  <changeSet id="1" author="liquibase-docs">
+    <dbms type="mysql">
+      <changeSet author="liquibase-docs" id="mysql-1">
+        <createTable tableName="customers">
+          <column name="id" type="INT">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="name" type="VARCHAR(255)">
+            <constraints nullable="false"/>
+          </column>
+          <column name="age" type="INT">
+            <constraints nullable="false"/>
+          </column>
+          <column name="email" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+          </column>
+          <column name="phone" type="VARCHAR(20)">
+            <constraints nullable="true"/>
+          </column>
+          <column name="address" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+          </column>
+        </createTable>
+      </changeSet>
+    </dbms>
+
+    <dbms type="oracle">
+      <changeSet author="liquibase-docs" id="oracle-1">
+        <createTable tableName="orders">
+          <column name="id" type="NUMBER">
+            <constraints nullable="false" primaryKey="true"/>
+          </column>
+          <column name="customer_id" type="NUMBER">
+            <constraints nullable="false"/>
+          </column>
+          <column name="amount" type="NUMBER">
+            <constraints nullable="false"/>
+          </column>
+          <column name="order_date" type="DATE">
+            <constraints nullable="false"/>
+          </column>
+        </createTable>
+      </changeSet>
+    </dbms>
+  </changeSet>
+
+  <changeSet id="2" author="liquibase-docs">
+    <dbms type="mysql">
+      <changeSet author="liquibase-docs" id="mysql-2">
+        <addColumn tableName="customers">
+          <column name="phone" type="VARCHAR(20)">
+            <constraints nullable="true"/>
+          </column>
+        </addColumn>
+      </changeSet>
+    </dbms>
+  </changeSet>
+
+  <changeSet id="3" author="liquibase-docs">
+    <dbms type="mysql">
+      <changeSet author="liquibase-docs" id="mysql-3">
+        <addColumn tableName="customers">
+          <column name="address" type="VARCHAR(255)">
+            <constraints nullable="true"/>
+          </column>
+        </addColumn>
+      </changeSet>
+    </dbms>
+  </changeSet>
+
+  <changeSet id="4" author="liquibase-docs">
+    <dbms type="mysql">
+      <changeSet author="liquibase-docs" id="mysql-4">
+        <createProcedure procedureName="get_customer_by_id">
+          <parameter name="in_id" type="INT"/>
+          <returns>
+            <return valueDataType="INT"/>
+          </returns>
+          <sql>
+            <![CDATA[
+              BEGIN
+                SELECT COUNT(*) INTO @result FROM customers WHERE id = in_id;
+                RETURN @result;
+              END
+            ]]>
+          </sql>
+        </createProcedure>
+      </changeSet
